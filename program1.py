@@ -1,28 +1,28 @@
-def decode_message( s: str, p: str) -> bool:
-
-
-   
-    dp = [[False] * (len(p) + 1) for _ in range(len(s) + 1)]
-   
-    dp[0][0] = True
-
-
-    for j in range(1, len(p) + 1):
-        if p[j - 1] == '*':
-            dp[0][j] = dp[0][j - 1]
-
-  
-    for i in range(1, len(s) + 1):
-        for j in range(1, len(p) + 1):
-            if p[j - 1] == '*':
-              
-                dp[i][j] = dp[i][j - 1] or dp[i - 1][j]
-            elif p[j - 1] == '?' or p[j - 1] == s[i - 1]:
-               
-                dp[i][j] = dp[i - 1][j - 1]
-
-   
-    return dp[len(s)][len(p)]
-
-  
-    return False
+def numIslands(grid):
+    if not grid:
+        return 0
+    
+    rows, cols = len(grid), len(grid[0])
+    
+    directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+    
+    def dfs(i, j):
+        stack = [(i, j)]
+        while stack:
+            x, y = stack.pop()
+            grid[x][y] = 'W'
+            for dx, dy in directions:
+                nx, ny = x + dx, y + dy
+                if 0 <= nx < rows and 0 <= ny < cols and grid[nx][ny] == 'L':
+                    stack.append((nx, ny))
+    
+    island_count = 0
+    
+    for i in range(rows):
+        for j in range(cols):
+            if grid[i][j] == 'L':
+                # We found an unvisited land cell, start DFS to mark the entire island
+                island_count += 1
+                dfs(i, j) 
+    
+    return island_count
