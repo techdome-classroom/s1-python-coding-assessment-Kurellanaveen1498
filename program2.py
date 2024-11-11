@@ -1,30 +1,28 @@
-const decodeTheRing = function (s, p) {
-
-  const m = s.length;
-  const n = p.length;
-
-  const dp = Array.from({ length: m + 1 }, () => Array(n + 1).fill(false));
-
-  dp[0][0] = true;
-  for (let j = 1; j <= n; j++) {
-    if (p[j - 1] === '*') {
-      dp[0][j] = dp[0][j - 1];
-    }
-  }
-
-  for (let i = 1; i <= m; i++) {
-    for (let j = 1; j <= n; j++) {
-      if (p[j - 1] === '*') {
-        dp[i][j] = dp[i][j - 1] || dp[i - 1][j];
-      } else if (p[j - 1] === '?' || p[j - 1] === s[i - 1]) {
-        dp[i][j] = dp[i - 1][j - 1];
-      }
-    }
-  }
-
-  return dp[m][n];
+def decode_message( s: str, p: str) -> bool:
 
 
-};
+   
+    dp = [[False] * (len(p) + 1) for _ in range(len(s) + 1)]
+   
+    dp[0][0] = True
 
-module.exports = decodeTheRing;
+
+    for j in range(1, len(p) + 1):
+        if p[j - 1] == '*':
+            dp[0][j] = dp[0][j - 1]
+
+  
+    for i in range(1, len(s) + 1):
+        for j in range(1, len(p) + 1):
+            if p[j - 1] == '*':
+              
+                dp[i][j] = dp[i][j - 1] or dp[i - 1][j]
+            elif p[j - 1] == '?' or p[j - 1] == s[i - 1]:
+               
+                dp[i][j] = dp[i - 1][j - 1]
+
+   
+    return dp[len(s)][len(p)]
+
+  
+    return False
