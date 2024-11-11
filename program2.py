@@ -18,5 +18,12 @@ def is_match(message: str, key: str) -> bool:
                 dp[i][j] = dp[i][j - 1] or dp[i - 1][j]
             else:
                 dp[i][j] = dp[i - 1][j - 1] and message[i - 1] == key[j - 1]
-    
+
     return dp[m][k]
+
+print(is_match("aa", "a"))      # False
+print(is_match("aa", "*"))      # True
+print(is_match("cb", "?a"))     # False
+print(is_match("abc", "a*"))    # True
+print(is_match("abc", "*b"))    # True
+print(is_match("abc", "abc?"))  # True
