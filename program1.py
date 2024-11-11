@@ -1,26 +1,28 @@
-class Solution:
+def decode_message( s: str, p: str) -> bool:
+
+
    
-    def getTotalIsles(self, grid: list[list[str]]) -> int:
-    import unittest
-from program1 import Solution
+    dp = [[False] * (len(p) + 1) for _ in range(len(s) + 1)]
+   
+    dp[0][0] = True
 
-class TestSolution(unittest.TestCase):
-    def setUp(self):
-        self.solution = Solution()
 
-    def test_case1(self):
-        result = self.solution.getTotalIsles([["L","L","L","L","W"],["L","L","W","L","W"],["L","L","W","W","W"],["W","W","W","W","W"]])
-        self.assertEqual(result, 1)
+    for j in range(1, len(p) + 1):
+        if p[j - 1] == '*':
+            dp[0][j] = dp[0][j - 1]
 
-    def test_case2(self):
-        result = self.solution.getTotalIsles([["L","L","W","W","W"],["L","L","W","W","W"],["W","W","L","W","W"],["W","W","W","L","L"]])
-        self.assertEqual(result, 3)
+  
+    for i in range(1, len(s) + 1):
+        for j in range(1, len(p) + 1):
+            if p[j - 1] == '*':
+              
+                dp[i][j] = dp[i][j - 1] or dp[i - 1][j]
+            elif p[j - 1] == '?' or p[j - 1] == s[i - 1]:
+               
+                dp[i][j] = dp[i - 1][j - 1]
 
-    def test_case3(self):
-        result = self.solution.getTotalIsles([["W", "W", "W", "W"], ["W", "L", "L", "W"], ["W", "L", "L", "W"], ["W", "W", "W", "W"]])
-        self.assertEqual(result, 1)
+   
+    return dp[len(s)][len(p)]
 
-if __name__ == '__main__':
-    unittest.main(argv=['first-arg-is-ignored'], exit=False)
-                    
-        return 0
+  
+    return False
